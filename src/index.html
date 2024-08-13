@@ -5,11 +5,17 @@
 
         <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-        <link rel="stylesheet" type="text/css" href="./lib/litegraph.css">
-        <link rel="stylesheet" type="text/css" href="./lib/litegraph-editor.css">
+        <link rel="stylesheet" type="text/css" href="./lib/litegraph/litegraph.css">
         <link rel="stylesheet" type="text/css" href="./css/style.css">
+        <script type="text/javascript" src="./lib/litegraph/litegraph.js"></script>
+        <script type="module">
+            import { app } from "./app.js";
+            await app.main();
+            window.app = app;
+            window.graph = app.graph;
+        </script>
     </head>
-    <body>
-        <div id="main"></div>
+    <body class="litegraph">
+
     </body>
 </html>
