@@ -1,5 +1,5 @@
 import { $el } from "./components/element.js";
-import { NoteNode } from "./components/nodes/Note.js"
+import { registNodes } from "./components/nodes/index.js";
 export const ANIM_PREVIEW_WIDGET = "$$nn_animation_preview";
 
 
@@ -26,8 +26,7 @@ export class NodeNoteApp {
 
 		this.graph = new LGraph();
 
-        this.graph.registerNodeType("custom/note", NoteNode);
-
+		registNodes()
 
 		this.canvas = new LGraphCanvas(canvasEl, this.graph);
 		this.ctx = canvasEl.getContext("2d");
