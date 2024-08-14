@@ -13,7 +13,7 @@ const IS_CONTROL_WIDGET = Symbol();
 
 function addMultilineWidget(node, name, opts, app) {
 	const inputEl = document.createElement("textarea");
-	inputEl.className = "NodeNote-multiline-input";
+	inputEl.className = "nodenote-multiline-input";
 	inputEl.value = opts.defaultVal;
 	inputEl.placeholder = opts.placeholder || name;
 

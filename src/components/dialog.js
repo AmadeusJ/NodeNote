@@ -6,8 +6,8 @@ export class NodeNoteDialog extends EventTarget {
     constructor(type = "div", buttons = null) {
         super();
         this.#buttons = buttons;
-        this.element = $el(type + ".NodeNote-modal", { parent: document.body }, [
-            $el("div.NodeNote-modal-content", [$el("p", { $: (p) => (this.textElement = p) }), ...this.createButtons()]),
+        this.element = $el(type + ".nodenote-modal", { parent: document.body }, [
+            $el("div.nodenote-modal-content", [$el("p", { $: (p) => (this.textElement = p) }), ...this.createButtons()]),
         ])
     }
 

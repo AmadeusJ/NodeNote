@@ -1,0 +1,145 @@
+.relative {
+	position: relative;
+}
+.hidden {
+	display: none !important;
+}
+.mdi.rotate270::before {
+	transform: rotate(270deg);
+}
+
+/* Generic */
+.nodenote-button {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	cursor: pointer;
+	border: none;
+	border-radius: 4px;
+	padding: 4px 8px;
+	box-sizing: border-box;
+	margin: 0;
+	transition: box-shadow 0.1s;
+}
+
+.nodenote-button:active {
+	box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.5);
+}
+.nodenote-button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.primary .nodenote-button,
+.primary.nodenote-button {
+	background-color: var(--primary-bg) !important;
+	color: var(--primary-fg) !important;
+}
+
+.primary .nodenote-button:not(:disabled):hover,
+.primary.nodenote-button:not(:disabled):hover {
+	background-color: var(--primary-hover-bg) !important;
+	color: var(--primary-hover-fg) !important;
+}
+
+/* Popup */
+.nodenote-popup {
+	position: absolute;
+	left: var(--left);
+	right: var(--right);
+	top: var(--top);
+	bottom: var(--bottom);
+	z-index: 2000;
+	max-height: calc(100vh - var(--limit) - 10px);
+	box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+.nodenote-popup:not(.open) {
+	display: none;
+}
+
+.nodenote-popup.right.open {
+	border-top-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	overflow: hidden;
+}
+
+/* Menu */
+.nodenote-menu {
+	width: 100vw;
+	background: var(--nodenote-menu-bg);
+	color: var(--fg-color);
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	display: flex;
+	padding: 4px 8px;
+	align-items: center;
+	gap: 8px;
+	box-sizing: border-box;
+	z-index: 1000;
+	order: 0;
+	grid-column: 1/-1;
+	overflow: auto;
+	max-height: 90vh;
+}
+
+.nodenote-menu>* {
+	flex-shrink: 0;
+}
+
+.nodenote-menu .mdi::before {
+	font-size: 18px;
+}
+
+.nodenote-menu .nodenote-button {
+	background: var(--comfy-input-bg);
+	color: var(--fg-color);
+	white-space: nowrap;
+}
+
+.nodenote-menu .nodenote-button:not(:disabled):hover {
+	background: var(--border-color);
+	color: var(--content-fg);
+}
+
+.nodenote-menu .nodenote-split-button-popup > .nodenote-button {
+	border-radius: 0;
+	background-color: transparent;
+}
+
+.nodenote-menu .nodenote-split-button-popup > .nodenote-button:not(:disabled):hover {
+	background-color: var(--comfy-input-bg);
+}
+
+.nodenote-menu .nodenote-split-button-popup.left {
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.nodenote-menu .nodenote-button.popup-open {
+	background-color: var(--content-bg);
+	color: var(--content-fg);
+}
+
+.nodenote-menu-push {
+	margin-left: -0.8em;
+	flex: auto;
+}
+
+.nodenote-logo {
+	font-size: 1.2em;
+	margin: 0;
+	user-select: none;
+	cursor: default;
+}
+
+
+/***** Responsive *****/
+.lg.nodenote-menu .lt-lg-show {
+	display: none !important;
+}
+.nodenote-menu:not(.lg) .nlg-hide {
+	display: none !important;
+}

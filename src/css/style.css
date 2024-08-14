@@ -1,8 +1,10 @@
+@import url("./menu.css");
+
 :root {
 	--fg-color: #000;
 	--bg-color: #fff;
-	--comfy-menu-bg: #353535;
-	--comfy-input-bg: #222;
+	--nodenote-menu-bg: #353535;
+	--nodenote-input-bg: #222;
 	--input-text: #ddd;
 	--descrip-text: #999;
 	--drag-text: #ccc;
@@ -46,7 +48,7 @@ body {
 	max-width: -webkit-fill-available;
 }
 
-.NodeNote-body-top {
+.nodenote-body-top {
 	order: -5;
 	grid-column: 1/-1;
 	z-index: 10;
@@ -54,7 +56,7 @@ body {
 	flex-direction: column;
 }
 
-.NodeNote-body-left {
+.nodenote-body-left {
 	order: -4;
 	z-index: 10;
 	display: flex;
@@ -66,16 +68,580 @@ body {
 	order: -3;
 }
 
-.NodeNote-body-right {
+.nodenote-body-right {
 	order: -2;
 	z-index: 10;
 	display: flex;
 }
 
-.NodeNote-body-bottom {
+.nodenote-body-bottom {
 	order: -1;
 	grid-column: 1/-1;
 	z-index: 10;
 	display: flex;
 	flex-direction: column;
+}
+
+.nodenote-multiline-input {
+	background-color: var(--nodenote-input-bg);
+	color: var(--input-text);
+	overflow: hidden;
+	overflow-y: auto;
+	padding: 2px;
+	resize: none;
+	border: none;
+	box-sizing: border-box;
+	font-size: 10px;
+}
+
+.nodenote-modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 100; /* Sit on top */
+	padding: 30px 30px 10px 30px;
+	background-color: var(--nodenote-menu-bg); /* Modal background */
+	color: var(--error-text);
+	box-shadow: 0 0 20px #888888;
+	border-radius: 10px;
+	top: 50%;
+	left: 50%;
+	max-width: 80vw;
+	max-height: 80vh;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+	justify-content: center;
+	font-family: monospace;
+	font-size: 15px;
+}
+
+.nodenote-modal-content {
+	display: flex;
+	flex-direction: column;
+}
+
+.nodenote-modal p {
+	overflow: auto;
+	white-space: pre-line; /* This will respect line breaks */
+	margin-bottom: 20px; /* Add some margin between the text and the close button*/
+}
+
+.nodenote-modal select,
+.nodenote-modal input[type=button],
+.nodenote-modal input[type=checkbox] {
+	margin: 3px 3px 3px 4px;
+}
+
+.nodenote-menu-hamburger {
+	position: fixed;
+	top: 10px;
+	z-index: 9999;
+	right: 10px;
+	width: 30px;
+	display: none;
+	gap: 8px;
+	flex-direction: column;
+	cursor: pointer;
+}
+.nodenote-menu-hamburger div {
+	height: 3px;
+	width: 100%;
+	border-radius: 20px;
+	background-color: white;
+}
+
+.nodenote-menu {
+	font-size: 15px;
+	position: absolute;
+	top: 50%;
+	right: 0;
+	text-align: center;
+	z-index: 999;
+	width: 170px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: var(--descrip-text);
+	background-color: var(--nodenote-menu-bg);
+	font-family: sans-serif;
+	padding: 10px;
+	border-radius: 0 8px 8px 8px;
+	box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.nodenote-menu-header {
+	display: flex;
+}
+
+.nodenote-menu-actions {
+	display: flex;
+	gap: 3px;
+	align-items: center;
+	height: 20px;
+	position: relative;
+	top: -1px;
+	font-size: 22px;
+}
+
+.nodenote-menu .nodenote-menu-actions button {
+	background-color: rgba(0, 0, 0, 0);
+	padding: 0;
+	border: none;
+	cursor: pointer;
+	font-size: inherit;
+}
+
+.nodenote-menu .nodenote-menu-actions .nodenote-settings-btn {
+	font-size: 0.6em;
+}
+
+button.nodenote-close-menu-btn {
+	font-size: 1em;
+	line-height: 12px;
+	color: #ccc;
+	position: relative;
+	top: -1px;
+}
+
+.nodenote-menu-queue-size {
+	flex: auto;
+}
+
+.nodenote-menu button,
+.nodenote-modal button {
+	font-size: 20px;
+}
+
+.nodenote-menu-btns {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.nodenote-menu-btns button {
+	font-size: 10px;
+	width: 50%;
+	color: var(--descrip-text) !important;
+}
+
+.nodenote-menu > button {
+	width: 100%;
+}
+
+.nodenote-btn,
+.nodenote-menu > button,
+.nodenote-menu-btns button,
+.nodenote-menu .nodenote-list button,
+.nodenote-modal button {
+	color: var(--input-text);
+	background-color: var(--nodenote-input-bg);
+	border-radius: 8px;
+	border-color: var(--border-color);
+	border-style: solid;
+	margin-top: 2px;
+}
+
+.nodenote-btn:hover:not(:disabled),
+.nodenote-menu > button:hover,
+.nodenote-menu-btns button:hover,
+.nodenote-menu .nodenote-list button:hover,
+.nodenote-modal button:hover,
+.nodenote-menu-actions button:hover {
+	filter: brightness(1.2);
+	will-change: transform;
+	cursor: pointer;
+}
+
+span.drag-handle {
+	width: 10px;
+	height: 20px;
+	display: inline-block;
+	overflow: hidden;
+	line-height: 5px;
+	padding: 3px 4px;
+	cursor: move;
+	vertical-align: middle;
+	margin-top: -.4em;
+	margin-left: -.2em;
+	font-size: 12px;
+	font-family: sans-serif;
+	letter-spacing: 2px;
+	color: var(--drag-text);
+	text-shadow: 1px 0 1px black;
+}
+
+span.drag-handle::after {
+	content: '.. .. ..';
+}
+
+.nodenote-queue-btn {
+	width: 100%;
+}
+
+.nodenote-list {
+	color: var(--descrip-text);
+	background-color: var(--nodenote-menu-bg);
+	margin-bottom: 10px;
+	border-color: var(--border-color);
+	border-style: solid;
+}
+
+.nodenote-list-items {
+	overflow-y: scroll;
+	max-height: 100px;
+	min-height: 25px;
+	background-color: var(--nodenote-input-bg);
+	padding: 5px;
+}
+
+.nodenote-list h4 {
+	min-width: 160px;
+	margin: 0;
+	padding: 3px;
+	font-weight: normal;
+}
+
+.nodenote-list-items button {
+	font-size: 10px;
+}
+
+.nodenote-list-actions {
+	margin: 5px;
+	display: flex;
+	gap: 5px;
+	justify-content: center;
+}
+
+.nodenote-list-actions button {
+	font-size: 12px;
+}
+
+button.nodenote-queue-btn {
+	margin: 6px 0 !important;
+}
+
+.nodenote-modal.nodenote-settings,
+.nodenote-modal.nodenote-manage-templates {
+	text-align: center;
+	font-family: sans-serif;
+	color: var(--descrip-text);
+	z-index: 99;
+}
+
+.nodenote-modal.nodenote-settings input[type="range"] {
+	vertical-align: middle;
+}
+
+.nodenote-modal.nodenote-settings input[type="range"] + input[type="number"] {
+	width: 3.5em;
+}
+
+.nodenote-modal input,
+.nodenote-modal select {
+	color: var(--input-text);
+	background-color: var(--nodenote-input-bg);
+	border-radius: 8px;
+	border-color: var(--border-color);
+	border-style: solid;
+	font-size: inherit;
+}
+
+.nodenote-tooltip-indicator {
+	text-decoration: underline;
+	text-decoration-style: dashed;
+}
+
+@media only screen and (max-height: 850px) {
+	.nodenote-menu {
+		top: 0 !important;
+		bottom: 0 !important;
+		left: auto !important;
+		right: 0 !important;
+		border-radius: 0;
+	}
+
+	.nodenote-menu span.drag-handle {
+		display: none;
+	}
+	
+	.nodenote-menu-queue-size {
+		flex: unset;
+	}
+
+	.nodenote-menu-header {
+		justify-content: space-between;
+	}
+	.nodenote-menu-actions {
+		gap: 10px;
+		font-size: 28px;
+	}
+}
+
+/* Input popup */
+
+.graphdialog {
+	min-height: 1em;
+	background-color: var(--nodenote-menu-bg);
+}
+
+.graphdialog .name {
+	font-size: 14px;
+	font-family: sans-serif;
+	color: var(--descrip-text);
+}
+
+.graphdialog button {
+	margin-top: unset;
+	vertical-align: unset;
+	height: 1.6em;
+	padding-right: 8px;
+}
+
+.graphdialog input, .graphdialog textarea, .graphdialog select {
+	background-color: var(--nodenote-input-bg);
+	border: 2px solid;
+	border-color: var(--border-color);
+	color: var(--input-text);
+	border-radius: 12px 0 0 12px;
+}
+
+/* Dialogs */
+
+dialog {
+	box-shadow: 0 0 20px #888888;
+}
+
+dialog::backdrop {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.nodenote-dialog.nodenoteui-dialog.nodenote-modal {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transform: none;
+}
+
+.nodenote-dialog.nodenote-modal {
+	font-family: Arial, sans-serif;
+	border-color: var(--bg-color);
+	box-shadow: none;
+  	border: 2px solid var(--border-color);
+}
+
+.nodenote-dialog .nodenote-modal-content {
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 10px;
+	color: var(--fg-color);
+}
+
+.nodenote-dialog .nodenote-modal-content h3 {
+	margin-top: 0;
+}
+
+.nodenote-dialog .nodenote-modal-content > p {
+	width: 100%;
+}
+
+.nodenote-dialog .nodenote-modal-content > .nodenote-button {
+	flex: 1;
+	justify-content: center;
+}
+
+#nodenote-settings-dialog {
+	padding: 0;
+	width: 41rem;
+}
+
+#nodenote-settings-dialog tr > td:first-child {
+	text-align: right;
+}
+
+#nodenote-settings-dialog tbody button, #nodenote-settings-dialog table > button {
+	background-color: var(--bg-color);
+	border: 1px var(--border-color) solid;
+	border-radius: 0;
+	color: var(--input-text);
+	font-size: 1rem;
+	padding: 0.5rem;
+}
+
+#nodenote-settings-dialog button:hover {
+	background-color: var(--tr-odd-bg-color);
+}
+
+/* General CSS for tables */
+
+.nodenote-table {
+	border-collapse: collapse;
+	color: var(--input-text);
+	font-family: Arial, sans-serif;
+	width: 100%;
+}
+
+.nodenote-table caption {
+	position: sticky;
+	top: 0;
+	background-color: var(--bg-color);
+	color: var(--input-text);
+	font-size: 1rem;
+	font-weight: bold;
+	padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.nodenote-table caption .nodenote-btn {
+	position: absolute;
+	top: -2px;
+	right: 0;
+	bottom: 0;
+	cursor: pointer;
+	border: none;
+	height: 100%;
+	border-radius: 0;
+	aspect-ratio: 1/1;
+	user-select: none;
+	font-size: 20px;
+}
+
+.nodenote-table caption .nodenote-btn:focus {
+	outline: none;
+}
+
+.nodenote-table tr:nth-child(even) {
+	background-color: var(--tr-even-bg-color);
+}
+
+.nodenote-table tr:nth-child(odd) {
+	background-color: var(--tr-odd-bg-color);
+}
+
+.nodenote-table td,
+.nodenote-table th {
+	border: 1px solid var(--border-color);
+	padding: 8px;
+}
+
+/* Context menu */
+
+.litegraph .dialog {
+	z-index: 1;
+	font-family: Arial, sans-serif;
+}
+
+.litegraph .litemenu-entry.has_submenu {
+	position: relative;
+	padding-right: 20px;
+}
+
+.litemenu-entry.has_submenu::after {
+	content: ">";
+	position: absolute;
+	top: 0;
+	right: 2px;
+}
+
+.litegraph.litecontextmenu,
+.litegraph.litecontextmenu.dark {
+	z-index: 9999 !important;
+	background-color: var(--nodenote-menu-bg) !important;
+	filter: brightness(95%);
+	will-change: transform;
+}
+
+.litegraph.litecontextmenu .litemenu-entry:hover:not(.disabled):not(.separator) {
+	background-color: var(--nodenote-menu-bg) !important;
+	filter: brightness(155%);
+	will-change: transform;
+	color: var(--input-text);
+}
+
+.litegraph.litecontextmenu .litemenu-entry.submenu,
+.litegraph.litecontextmenu.dark .litemenu-entry.submenu {
+	background-color: var(--nodenote-menu-bg) !important;
+	color: var(--input-text);
+}
+
+.litegraph.litecontextmenu input {
+	background-color: var(--nodenote-input-bg) !important;
+	color: var(--input-text) !important;
+}
+
+.nodenote-context-menu-filter {
+	box-sizing: border-box;
+	border: 1px solid #999;
+	margin: 0 0 5px 5px;
+	width: calc(100% - 10px);
+}
+
+.nodenote-img-preview {
+	pointer-events: none;
+	overflow: hidden;
+	display: flex;
+	flex-wrap: wrap;
+ 	align-content: flex-start;
+	justify-content: center;
+}
+
+.nodenote-img-preview img {
+	object-fit: contain;
+	width: var(--nodenote-img-preview-width);
+	height: var(--nodenote-img-preview-height);
+}
+
+.nodenote-missing-nodes li button {
+	font-size: 12px;
+	margin-left: 5px;
+}
+
+/* Search box */
+
+.litegraph.litesearchbox {
+	z-index: 9999 !important;
+	background-color: var(--nodenote-menu-bg) !important;
+	overflow: hidden;
+	display: block;
+}
+
+.litegraph.litesearchbox input,
+.litegraph.litesearchbox select {
+	background-color: var(--nodenote-input-bg) !important;
+	color: var(--input-text);
+}
+
+.litegraph.lite-search-item {
+	color: var(--input-text);
+	background-color: var(--nodenote-input-bg);
+	filter: brightness(80%);
+	will-change: transform;
+	padding-left: 0.2em;
+}
+
+.litegraph.lite-search-item.generic_type {
+	color: var(--input-text);
+	filter: brightness(50%);
+	will-change: transform;
+}
+
+@media only screen and (max-width: 450px) {
+	#nodenote-settings-dialog .nodenote-table tbody {
+		display: grid;
+	}
+	#nodenote-settings-dialog .nodenote-table tr {
+		display: grid;
+	}
+	#nodenote-settings-dialog tr > td:first-child {
+		text-align: center;
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+	#nodenote-settings-dialog tr > td:not(:first-child) {
+		text-align: center;
+		border-top: none;
+	}
+}
+
+audio.nodenote-audio.empty-audio-widget {
+	display: none;
 }

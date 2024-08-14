@@ -75,7 +75,7 @@ export function $el(tag, propsOrChildren, children) {
 	return element;
 }
 
-function dragElement(dragEl, settings) {
+export function dragElement(dragEl, settings) {
 	var posDiffX = 0,
 		posDiffY = 0,
 		posStartX = 0,

@@ -1,37 +1,25 @@
 // import { LGraphNode } from "../../lib/litegraph/litegraph.js";
+import { app } from "../../app.js"
+import { NodeNoteWidget } from "../widgets.js";
 
-function NoteNode() {
+function Note() {
     this.title = "Note";
-    this.addInput("Input", "number");
-    this.addOutput("Output", "number");
+    this.properties = {};
+    this.properties.text="";
 
-    // color=LGraphCanvas.node_colors.yellow.color;
-    // bgcolor=LGraphCanvas.node_colors.yellow.bgcolor;
-    // groupcolor = LGraphCanvas.node_colors.yellow.groupcolor;
-    // constructor() {
-    //     if (!this.properties) {
-    //         this.properties = {};
-    //         this.properties.text="";
-    //     }
-
-    //     NodeNoteWidget.STRING(this, "", ["", {default:this.properties.text, multiline: true}], app)
-
-    //     this.serialize_widgets = true;
-    //     this.isVirtualNode = true;
-
-    // }
+    const inputEl = document.createElement("textarea");
+	inputEl.className = "nodenote-multiline-input";
+    inputEl.value = this.properties.text
+    this.addDOMWidget("text", 'Customtext', inputEl, {
+        getValue() {
+            return inputEl.value;
+        },
+        setValue(v) {
+            inputEl.value = v;
+        },
+    })
+    // NodeNoteWidget.STRING(this, "", ["", { default: this.properties.text, multiline: true }], app)
 
 }
 
-// app.graph.registerNodeType(
-//     "Note",
-//     Object.assign(NoteNode, {
-//         title_mode: LiteGraph.NORMAL_TITLE,
-//         title: "Note",
-//         collapsable: true,
-//     })
-// );
-
-// NoteNode.category = "utils";
-
-export const Note = NoteNode;
+export const NoteNode = Note;
